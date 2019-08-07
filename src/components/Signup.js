@@ -48,7 +48,7 @@ function Signup() {
     !passwordRepeat ?
       document.getElementById('passwordRepeatError').style.display = 'block' :
       document.getElementById('passwordRepeatError').style.display = 'none'
-    password !== passwordRepeat ?
+    passwordRepeat && password !== passwordRepeat ?
       document.getElementById('passwordMatchError').style.display = 'block' :
       document.getElementById('passwordMatchError').style.display = 'none'
     password && password.length < 6 ?
