@@ -1,0 +1,28 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Roboto,arial;
+}
+
+@media screen and (max-width: 700px) {
+  .logoContainer {
+    text-align: center;
+    padding-top: 25px;
+    padding-left: 0px;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .logoContainer {
+    padding-left: 45px;
+    padding-top: 50px;
+  }
+}
+
+.logoContainer{
+  max-width: 1065px;
+  margin: 0 auto;
+}

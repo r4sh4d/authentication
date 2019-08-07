@@ -1,25 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styles from './App.module.css';
+import Login from './components/Login';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Signup from './components/Signup';
+import PassReset from './components/PassReset'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <div className={styles.logoContainer}>
+          <a href="https://www.prospectsmb.com/az"><img src={require("./images/logo-black.png")} alt="Logo" /></a>
+        </div>
+        <Route exact path="/" component={Login} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/recovery" component={PassReset} />
+      </div>
+    </Router>
   );
 }
 

@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/runtime": "^7.5.5",
+    "browser-sync": "^2.26.7",
+    "local-storage": "^2.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1"
   },
   "scripts": {
@@ -27,5 +31,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "apidoc": {
+    "header": {
+      "title": "My own header title",
+      "filename": "header.md"
+    },
+    "footer": {
+      "title": "My own footer title",
+      "filename": "footer.md"
+    }
   }
 }
