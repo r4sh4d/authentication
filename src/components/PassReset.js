@@ -32,7 +32,6 @@ function PassReset() {
         },
         body: JSON.stringify(email)
       })
-        .then(res => res)
         .then(hideSpinner)
     }
   }
