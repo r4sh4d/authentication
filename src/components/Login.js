@@ -9,6 +9,7 @@ function Login() {
   const [email, setMail] = useState('')
   const [password, setPassword] = useState('')
   const [authorized, setAuthorized] = useState(true)
+  const [validation, setValidation] = useState(true)
   const [user, setUser] = useState({ email, password, deviceToken: null })
 
   const [spinner, showSpinner, hideSpinner] = useSpinner()
@@ -16,6 +17,12 @@ function Login() {
   useEffect(() => {
     setUser({ email, password, deviceToken: null })
   }, [email, password])
+
+  useEffect(() => {
+    !validation ?
+      document.getElementById('emailFormatError').style.display = 'block' :
+      document.getElementById('emailFormatError').style.display = 'none'
+  }, [validation])
 
   useEffect(() => {
     !authorized ?
@@ -32,9 +39,6 @@ function Login() {
     !email ?
       document.getElementById('emailError').style.display = 'block' :
       document.getElementById('emailError').style.display = 'none'
-    email && !email.includes('@') ?
-      document.getElementById('emailFormatError').style.display = 'block' :
-      document.getElementById('emailFormatError').style.display = 'none'
     !password ?
       document.getElementById('passwordError').style.display = 'block' :
       document.getElementById('passwordError').style.display = 'none'
@@ -56,7 +60,10 @@ function Login() {
         },
         body: JSON.stringify(user)
       })
-        .then(res => res.status === 401 ? setAuthorized(false) : setAuthorized(true))
+        .then(res => {
+          res.status === 401 ? setAuthorized(false) : setAuthorized(true)
+          res.status === 422 ? setValidation(false) : setValidation(true)
+        })
         .then(hideSpinner)
     }
   }

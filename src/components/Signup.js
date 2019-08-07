@@ -10,6 +10,7 @@ function Signup() {
   const [password, setPassword] = useState('')
   const [passwordRepeat, setPasswordRepeat] = useState('')
   const [mailConflict, setMailConflict] = useState(false)
+  const [validation, setValidation] = useState(true)
   const [user, setUser] = useState({ email, password, passwordRepeat })
 
   const [spinner, showSpinner, hideSpinner] = useSpinner()
@@ -19,6 +20,12 @@ function Signup() {
       document.getElementById('emailConflictError').style.display = 'block' :
       document.getElementById('emailConflictError').style.display = 'none'
   }, [mailConflict])
+
+  useEffect(() => {
+    !validation ?
+      document.getElementById('emailFormatError').style.display = 'block' :
+      document.getElementById('emailFormatError').style.display = 'none'
+  }, [validation])
 
   useEffect(() => {
     setUser({ email, password, passwordRepeat })
@@ -35,9 +42,6 @@ function Signup() {
     !email ?
       document.getElementById('emailError').style.display = 'block' :
       document.getElementById('emailError').style.display = 'none'
-    email && !email.includes('@') ?
-      document.getElementById('emailFormatError').style.display = 'block' :
-      document.getElementById('emailFormatError').style.display = 'none'
     !password ?
       document.getElementById('passwordError').style.display = 'block' :
       document.getElementById('passwordError').style.display = 'none'
@@ -66,6 +70,7 @@ function Signup() {
       })
         .then(res => {
           res.status === 409 ? setMailConflict(true) : setMailConflict(false)
+          res.status === 422 ? setValidation(false) : setValidation(true)
         })
         .then(hideSpinner)
     }

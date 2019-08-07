@@ -7,7 +7,6 @@ import useSpinner from '../spinner/useSpinner';
 function PassReset() {
 
   const [email, setMail] = useState('')
-
   const [spinner, showSpinner, hideSpinner] = useSpinner()
 
 
@@ -33,10 +32,8 @@ function PassReset() {
         },
         body: JSON.stringify(email)
       })
-        .then(res => res.json())
+        .then(res => res)
         .then(hideSpinner)
-        .then(response => console.log('Success:', JSON.stringify(response)))
-        .catch(error => console.error('Error:', error));
     }
   }
 
