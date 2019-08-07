@@ -51,7 +51,7 @@ function Login() {
   const handleSubmit = e => {
     e.preventDefault()
     checkFields();
-    if (email && email.includes('@') && password && password.length >= 6) {
+    if (email && password && password.length >= 6) {
       showSpinner()
       fetch("https://devcore.prospectsmb.com/v1/login", {
         method: 'POST',
