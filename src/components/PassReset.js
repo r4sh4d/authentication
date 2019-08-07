@@ -11,6 +11,11 @@ function PassReset() {
   const [spinner, showSpinner, hideSpinner] = useSpinner()
 
 
+  const checkFields = () => {
+    !email ?
+      document.getElementById('emailError').style.display = 'block' :
+      document.getElementById('emailError').style.display = 'none'
+  }
   const handleChange = e => {
     const { name, value } = e.target
     name === 'mail' && setMail(value)
@@ -18,18 +23,21 @@ function PassReset() {
 
   const handleSubmit = e => {
     e.preventDefault()
-    showSpinner()
-    fetch("https://devcore.prospectsmb.com/v1/password/recovery", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(email)
-    })
-      .then(res => res.json())
-      .then(hideSpinner)
-      .then(response => console.log('Success:', JSON.stringify(response)))
-      .catch(error => console.error('Error:', error));
+    checkFields()
+    if (email) {
+      showSpinner()
+      fetch("https://devcore.prospectsmb.com/v1/password/recovery", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(email)
+      })
+        .then(res => res.json())
+        .then(hideSpinner)
+        .then(response => console.log('Success:', JSON.stringify(response)))
+        .catch(error => console.error('Error:', error));
+    }
   }
 
   return (
@@ -44,7 +52,7 @@ function PassReset() {
           placeholder="E-mail ünvanı"
           onChange={handleChange}
         />
-
+        <p className={styles.error} id='emailError'>Bu dəyər boş olmamalıdır</p>
         <button className={styles.button} onClick={handleSubmit}>Şifrə yeniləmə sorğusu göndər</button>
 
         <div className={styles.registerSection}>

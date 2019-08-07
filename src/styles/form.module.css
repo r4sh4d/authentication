@@ -133,3 +133,30 @@
   padding: 6px 12px;
   line-height: 1.428571429;
 }
+
+.error {
+  display: none;
+  color: red;
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  font-size: 10px;
+  margin-top: -10px;
+  margin-bottom: 14px;
+  animation: error .1s;
+}
+
+@keyframes error {
+  from {
+    margin-top: -15px;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+  }
+  to {
+    margin-bottom: 8px;
+    height: auto;
+    opacity: 1;
+  }
+}

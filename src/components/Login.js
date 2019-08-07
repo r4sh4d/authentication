@@ -8,6 +8,7 @@ function Login() {
 
   const [email, setMail] = useState('')
   const [password, setPassword] = useState('')
+  const [authorized, setAuthorized] = useState(true)
   const [user, setUser] = useState({ email, password, deviceToken: null })
 
   const [spinner, showSpinner, hideSpinner] = useSpinner()
@@ -16,31 +17,56 @@ function Login() {
     setUser({ email, password, deviceToken: null })
   }, [email, password])
 
+  useEffect(() => {
+    !authorized ?
+      document.getElementById('unauthorizedError').style.display = 'block' :
+      document.getElementById('unauthorizedError').style.display = 'none'
+  }, [authorized])
+
   const handleChange = e => {
     const { name, value } = e.target
     name === 'mail' ? setMail(value) : setPassword(value)
   }
 
+  const checkFields = () => {
+    !email ?
+      document.getElementById('emailError').style.display = 'block' :
+      document.getElementById('emailError').style.display = 'none'
+    email && !email.includes('@') ?
+      document.getElementById('emailFormatError').style.display = 'block' :
+      document.getElementById('emailFormatError').style.display = 'none'
+    !password ?
+      document.getElementById('passwordError').style.display = 'block' :
+      document.getElementById('passwordError').style.display = 'none'
+    password && password.length < 6 ?
+      document.getElementById('lengthError').style.display = 'block' :
+      document.getElementById('lengthError').style.display = 'none'
+
+  }
+
   const handleSubmit = e => {
     e.preventDefault()
-    showSpinner()
-    fetch("https://devcore.prospectsmb.com/v1/login", {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(user)
-    })
-      .then(res => res.json())
-      .then(hideSpinner)
-      .then(response => console.log('Success:', JSON.stringify(response)))
-      .catch(error => console.error('Error:', error));
+    checkFields();
+    if (email && email.includes('@') && password && password.length >= 6) {
+      showSpinner()
+      fetch("https://devcore.prospectsmb.com/v1/login", {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      })
+        .then(res => res.status === 401 ? setAuthorized(false) : setAuthorized(true))
+        .then(hideSpinner)
+    }
   }
 
   return (
     <div className={styles.formContainer}>
       <form onSubmit={handleSubmit}>
         <h2 className={styles.header}>Giriş</h2>
+
+        <p className={styles.error} id='unauthorizedError'>Yanlış məlumat</p>
         <label className={styles.label}>Email ünvanı</label>
         <Input
           name="mail"
@@ -49,8 +75,10 @@ function Login() {
           placeholder="E-mail ünvanı"
           onChange={handleChange}
         />
-        <label className={styles.label}>Şifrə</label>
+        <p className={styles.error} id='emailError'>Bu dəyər boş olmamalıdır</p>
+        <p className={styles.error} id='emailFormatError'>Bu dəyər düzgün e-poçt adresi deyildir</p>
 
+        <label className={styles.label}>Şifrə</label>
         <Input
           name="password"
           value={password}
@@ -58,6 +86,8 @@ function Login() {
           placeholder="Şifrə"
           onChange={handleChange}
         />
+        <p id='passwordError' className={styles.error}>Bu dəyər boş olmamalıdır</p>
+        <p id='lengthError' className={styles.error}>Şifrə ən az 6 simvol olmalıdır</p>
 
         <Link to="/recovery" className={styles.forgetLink} >Şifrənİ unutmusunuz?</Link>
 
